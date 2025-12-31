@@ -37,9 +37,8 @@ def _import_tensorflow():
             raise RuntimeError(f"Failed to import TensorFlow: {e}")
     return tf
 
-# Add parent directory to path to import corrector
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
-from llm_phoneme_corrector import PhonemeCorrector
+# Import cloud LLM corrector (cloud-compatible)
+from .cloud_llm import correct_phonemes_with_groq
 
 # Phoneme class list
 PHONEMES = ['_', 'B', 'D', 'F', 'G', 'HH', 'JH', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z', 'CH', 'SH', 'NG', 'DH', 'TH', 'ZH', 'WH', 'AA', 'AI(R)', 'I(R)', 'A(R)', 'ER', 'EY', 'IY', 'AY', 'OW', 'UW', 'AE', 'EH', 'IH', 'AO', 'AH', 'UH', 'OO', 'AW', 'OY']
@@ -111,12 +110,10 @@ class VOCLPipeline:
         )
     
     def _load_corrector(self):
-        """Load LLM corrector."""
-        try:
-            self.corrector = PhonemeCorrector()
-        except Exception as e:
-            print(f"Warning: Could not initialize LLM corrector: {e}")
-            self.corrector = None
+        """Load LLM corrector (cloud-compatible, no initialization needed)."""
+        # Cloud LLM doesn't need initialization - it's called directly
+        # Keep self.corrector for compatibility but it's not used
+        self.corrector = True  # Indicates LLM is available
     
     def get_phrase_data(self, index: int):
         """
@@ -181,7 +178,7 @@ class VOCLPipeline:
     
     def correct_phonemes(self, phoneme_sequence: str):
         """
-        Correct phoneme sequence to text using LLM.
+        Correct phoneme sequence to text using cloud LLM (Groq API).
         
         Args:
             phoneme_sequence: Space-separated phoneme string
@@ -190,15 +187,23 @@ class VOCLPipeline:
             Corrected text string, or None if LLM fails
         """
         if self.corrector is None:
-            return "LLM corrector not available"
+            return None
         
         try:
-            result = self.corrector.correct(phoneme_sequence)
-            # Validate result
+            # Convert string to list for cloud_llm function
+            if isinstance(phoneme_sequence, str):
+                phoneme_list = phoneme_sequence.split()
+            else:
+                phoneme_list = phoneme_sequence
+            
+            # Use cloud LLM function
+            result = correct_phonemes_with_groq(phoneme_list, timeout=15)
+            
+            # Return result or None
             if result and len(result.strip()) > 0:
                 return result
             else:
-                return "LLM corrector not available"
+                return None
         except Exception as e:
             # Return None to indicate failure (caller will handle gracefully)
             print(f"LLM correction error: {e}")
