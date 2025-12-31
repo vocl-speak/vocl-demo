@@ -1,0 +1,43 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.DS_Store
+*.log
+.env
+.venv
+venv/
+ENV/
+env/
+
+# Model files (too large for GitHub)
+models/
+*.h5
+*.pkl
+*.pb
+*.ckpt
+*.pt
+*.pth
+
+# Data files (keep small ones, ignore large)
+*.npy
+# Keep phoneme_emg_library.npz (it's small)
+# !vocl_demo/data/phoneme_emg_library.npz
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Streamlit
+.streamlit/secrets.toml
+# Keep config.toml, ignore secrets
+
