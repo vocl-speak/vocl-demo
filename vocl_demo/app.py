@@ -292,18 +292,17 @@ if page == "Exhibits":
     """)
     
     # Define exhibits with their images and explanations
-    # Use path resolution that works both locally and on Streamlit Cloud
+    # Images are in vocl_demo/visualization_plots/ folder (same directory as app.py)
     def get_image_path(filename):
-        """Get image path that works locally and on Streamlit Cloud."""
-        # Try relative to current file first (for local)
-        local_path = os.path.join(os.path.dirname(__file__), '..', 'visualization_plots', filename)
-        if os.path.exists(local_path):
-            return local_path
-        # Try relative to repo root (for Streamlit Cloud)
-        repo_path = os.path.join('visualization_plots', filename)
-        if os.path.exists(repo_path):
-            return repo_path
-        # Fallback
+        """Get image path that works both locally and on Streamlit Cloud."""
+        # Images are in the same directory as app.py (vocl_demo/)
+        script_dir = os.path.dirname(__file__)
+        image_path = os.path.join(script_dir, 'visualization_plots', filename)
+        
+        # Check if exists, otherwise return relative path
+        if os.path.exists(image_path):
+            return image_path
+        # Fallback: relative path (works on Streamlit Cloud)
         return os.path.join('visualization_plots', filename)
     
     exhibits = [
