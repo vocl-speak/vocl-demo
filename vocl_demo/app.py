@@ -292,10 +292,24 @@ if page == "Exhibits":
     """)
     
     # Define exhibits with their images and explanations
+    # Use path resolution that works both locally and on Streamlit Cloud
+    def get_image_path(filename):
+        """Get image path that works locally and on Streamlit Cloud."""
+        # Try relative to current file first (for local)
+        local_path = os.path.join(os.path.dirname(__file__), '..', 'visualization_plots', filename)
+        if os.path.exists(local_path):
+            return local_path
+        # Try relative to repo root (for Streamlit Cloud)
+        repo_path = os.path.join('visualization_plots', filename)
+        if os.path.exists(repo_path):
+            return repo_path
+        # Fallback
+        return os.path.join('visualization_plots', filename)
+    
     exhibits = [
         {
             "title": "1. Scatter Plot: Mean Feature Vectors",
-            "image": "/Users/vazea/Desktop/x/visualization_plots/scatter_mean_features.png",
+            "image": get_image_path("scatter_mean_features.png"),
             "explanation": """
             **WHAT IT IS:** A scatter plot where each point represents one feature dimension (out of 160 features).
             - X-axis = Mean feature value for Silent speech (normalized)
@@ -316,7 +330,7 @@ if page == "Exhibits":
         },
         {
             "title": "2. Radar Chart: Feature Profile Comparison",
-            "image": "/Users/vazea/Desktop/x/visualization_plots/radar_chart_features.png",
+            "image": get_image_path("radar_chart_features.png"),
             "explanation": """
             **WHAT IT IS:** A circular (radar/spider) chart comparing the top 12 most important features.
             Each axis represents one feature dimension showing the "profile" or "signature" of each condition.
@@ -337,7 +351,7 @@ if page == "Exhibits":
         },
         {
             "title": "3. Violin Plots: Feature Distribution Comparison",
-            "image": "/Users/vazea/Desktop/x/visualization_plots/violin_plots_features.png",
+            "image": get_image_path("violin_plots_features.png"),
             "explanation": """
             **WHAT IT IS:** Four side-by-side comparisons showing the distribution of feature values.
             Each plot shows one feature, with distributions for both conditions.
@@ -360,7 +374,7 @@ if page == "Exhibits":
         },
         {
             "title": "4. Bar Chart: Cosine Similarity with Context",
-            "image": "/Users/vazea/Desktop/x/visualization_plots/cosine_similarity_bar_chart.png",
+            "image": get_image_path("cosine_similarity_bar_chart.png"),
             "explanation": """
             **WHAT IT IS:** A bar chart comparing your result (0.9834) to reference values.
             Shows where your result falls on the similarity scale.
@@ -380,7 +394,7 @@ if page == "Exhibits":
         },
         {
             "title": "5. t-SNE with Density Contours",
-            "image": "/Users/vazea/Desktop/x/visualization_plots/tsne_with_contours.png",
+            "image": get_image_path("tsne_with_contours.png"),
             "explanation": """
             **WHAT IT IS:** A 2D visualization of the high-dimensional feature space (160 dimensions → 2D).
             Each point = one EMG sample (256 silent + 256 vocalized+whispered)
@@ -402,7 +416,7 @@ if page == "Exhibits":
         },
         {
             "title": "6. Feature-by-Feature Correlation Scatter",
-            "image": "/Users/vazea/Desktop/x/visualization_plots/feature_correlations_scatter.png",
+            "image": get_image_path("feature_correlations_scatter.png"),
             "explanation": """
             **WHAT IT IS:** A scatter plot showing the correlation coefficient for each individual feature.
             Each point = One feature's correlation between Silent and V+W conditions.
@@ -425,7 +439,7 @@ if page == "Exhibits":
         },
         {
             "title": "7. Cosine Similarity Visualization (Vector Angle)",
-            "image": "/Users/vazea/Desktop/x/visualization_plots/cosine_similarity_visualization.png",
+            "image": get_image_path("cosine_similarity_visualization.png"),
             "explanation": """
             **WHAT IT IS:** A geometric visualization showing the angle between the two feature vectors.
             Shows cosine similarity as the angle between vectors in 2D space.
