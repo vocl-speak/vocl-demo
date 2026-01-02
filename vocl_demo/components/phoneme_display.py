@@ -9,30 +9,19 @@ import streamlit as st
 
 def display_phonemes(phoneme_sequence, confidences=None):
     """
-    Display phoneme sequence with optional confidence scores.
+    Display phoneme sequence.
     
     Args:
         phoneme_sequence: Space-separated phoneme string
-        confidences: Optional list of confidence scores
+        confidences: Ignored (kept for backward compatibility)
     """
-    st.subheader("📝 Phoneme Sequence")
+    # Display phonemes in a clean format
+    phonemes = phoneme_sequence.split() if isinstance(phoneme_sequence, str) else phoneme_sequence
     
-    if confidences:
-        # Display with confidence bars
-        phonemes = phoneme_sequence.split()
-        cols = st.columns(min(len(phonemes), 10))
-        
-        for i, (phoneme, conf) in enumerate(zip(phonemes, confidences)):
-            with cols[i % len(cols)]:
-                st.metric(
-                    label=phoneme,
-                    value=f"{conf:.1%}",
-                    delta=None
-                )
-    else:
-        # Simple display
-        st.code(phoneme_sequence, language=None)
+    # Create a visual display with badges
+    phoneme_display = " ".join([f"**{p}**" for p in phonemes])
+    st.markdown(phoneme_display)
     
-    # Show full sequence
-    with st.expander("View full sequence"):
-        st.text(phoneme_sequence)
+    # Show full sequence in code block
+    sequence_text = " ".join(phonemes)
+    st.code(sequence_text, language=None)

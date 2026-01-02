@@ -193,7 +193,10 @@ def build_emg_sequence_from_library(phoneme_sequence):
         phoneme_sequence: List of phoneme strings
     
     Returns:
-        Tuple of (representative_emg_data, phoneme_string, confidences)
+        Tuple of (all_emg_windows, phoneme_string, confidences)
+        - all_emg_windows: List of EMG data arrays, one for each phoneme
+        - phoneme_string: Space-separated phoneme string
+        - confidences: List of confidence values
     """
     print(f"STEP 1: Starting build_emg_sequence_from_library with {len(phoneme_sequence)} phonemes")
     
@@ -235,16 +238,13 @@ def build_emg_sequence_from_library(phoneme_sequence):
             print("STEP 4 ERROR: No EMG windows collected")
             return None, "", []
         
-        print("STEP 4: Creating representative EMG...")
-        # Use first window as representative (for visualization)
-        representative_emg = emg_windows[0]
-        
         print("STEP 5: Creating phoneme string...")
         # Create phoneme string
         phoneme_string = ' '.join(phonemes)
         
-        print(f"STEP 6 SUCCESS: Returning sequence '{phoneme_string}' with {len(confidences)} confidences")
-        return representative_emg, phoneme_string, confidences
+        print(f"STEP 6 SUCCESS: Returning {len(emg_windows)} EMG windows for '{phoneme_string}'")
+        # Return ALL EMG windows, not just the first one
+        return emg_windows, phoneme_string, confidences
         
     except Exception as e:
         print(f"CRASH in build_emg_sequence_from_library: {e}")
