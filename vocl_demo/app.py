@@ -287,7 +287,7 @@ if page == "Exhibits":
     st.markdown("---")
     st.markdown("""
     This section presents visualizations demonstrating the **98.34% cosine similarity** 
-    between silent and attempted speech EMG signals. Each exhibit shows 
+    between silent and vocalized+whispered speech EMG signals. Each exhibit shows 
     the correlation from a different analytical perspective.
     """)
     
@@ -296,13 +296,21 @@ if page == "Exhibits":
     def get_image_path(filename):
         """Get image path that works both locally and on Streamlit Cloud."""
         # Images are in the same directory as app.py (vocl_demo/)
-        script_dir = os.path.dirname(__file__)
-        image_path = os.path.join(script_dir, 'visualization_plots', filename)
+        script_dir = os.path.dirname(os.path.abspath(__file__))
         
-        # Check if exists, otherwise return relative path
-        if os.path.exists(image_path):
-            return image_path
-        # Fallback: relative path (works on Streamlit Cloud)
+        # Try multiple path resolutions
+        paths_to_try = [
+            os.path.join(script_dir, 'visualization_plots', filename),  # Absolute from script
+            os.path.join('visualization_plots', filename),  # Relative to current dir
+            os.path.join('vocl_demo', 'visualization_plots', filename),  # From repo root
+        ]
+        
+        for path in paths_to_try:
+            if os.path.exists(path):
+                return path
+        
+        # If none found, return relative path (Streamlit will try to resolve)
+        # Streamlit Cloud runs from repo root, so this should work
         return os.path.join('visualization_plots', filename)
     
     exhibits = [
@@ -312,7 +320,7 @@ if page == "Exhibits":
             "explanation": """
             **WHAT IT IS:** A scatter plot where each point represents one feature dimension (out of 160 features).
             - X-axis = Mean feature value for Silent speech (normalized)
-            - Y-axis = Mean feature value for Attempted Speech (normalized)
+            - Y-axis = Mean feature value for Vocalized+Whispered speech (normalized)
             
             **WHAT IT SHOWS:**
             - Each dot = one feature's average value in both conditions
@@ -336,7 +344,7 @@ if page == "Exhibits":
             
             **WHAT IT SHOWS:**
             - Red polygon = Silent speech feature profile
-            - Green polygon = Attempted Speech feature profile
+            - Green polygon = Vocalized+Whispered feature profile
             - Each axis = One feature dimension (F0, F1, F2, etc.)
             - Distance from center = Feature value magnitude
             
@@ -358,7 +366,7 @@ if page == "Exhibits":
             
             **WHAT IT SHOWS:**
             - Left violin (red) = Silent speech distribution
-            - Right violin (green) = Attempted Speech distribution
+            - Right violin (green) = Vocalized+Whispered distribution
             - Width = How many samples have that feature value
             - White dot = Mean value
             - Thick line = Median value
@@ -396,12 +404,12 @@ if page == "Exhibits":
             "image": get_image_path("tsne_with_contours.png"),
             "explanation": """
             **WHAT IT IS:** A 2D visualization of the high-dimensional feature space (160 dimensions → 2D).
-            Each point = one EMG sample (256 silent + 256 attempted speech)
+            Each point = one EMG sample (256 silent + 256 vocalized+whispered)
             Contour lines = Density of samples (like a topographic map)
             
             **WHAT IT SHOWS:**
             - Red points = Silent speech samples
-            - Green points = Attempted Speech samples
+            - Green points = Vocalized+Whispered samples
             - Contour lines = Regions where many samples cluster
             - Overlapping contours = Shared clustering regions
             
@@ -418,7 +426,7 @@ if page == "Exhibits":
             "image": get_image_path("feature_correlations_scatter.png"),
             "explanation": """
             **WHAT IT IS:** A scatter plot showing the correlation coefficient for each individual feature.
-            Each point = One feature's correlation between Silent and Attempted Speech conditions.
+            Each point = One feature's correlation between Silent and V+W conditions.
             Features are sorted by correlation strength (strongest first).
             
             **WHAT IT SHOWS:**
@@ -445,7 +453,7 @@ if page == "Exhibits":
             
             **WHAT IT SHOWS:**
             - Red arrow = Silent speech mean feature vector (direction)
-            - Green arrow = Attempted Speech mean feature vector (direction)
+            - Green arrow = Vocalized+Whispered mean feature vector (direction)
             - Blue arc = Angle between vectors (10.5°)
             - Unit circle = Reference circle
             
@@ -475,7 +483,7 @@ if page == "Exhibits":
         
         with col_exp:
             st.markdown(exhibit['explanation'])
-        
+
         if i < len(exhibits) - 1:
             st.markdown("---")
     
@@ -494,7 +502,7 @@ if page == "Exhibits":
     7. **ANGLE VISUALIZATION** → Shows the MATH (10.5° angle = high similarity)
     
     **TOGETHER, these prove:**
-    - Silent and attempted speech share **98.34% feature space similarity**
+    - Silent and vocalized+whispered speech share **98.34% feature space similarity**
     - This similarity is visible in multiple ways (scatter, radar, distributions)
     - The finding is robust (consistent across visualization methods)
     - Transfer learning is scientifically justified
@@ -570,7 +578,7 @@ else:  # Phoneme Builder page
         st.caption("Interactive EMG signals for each phoneme. Use zoom, pan, and hover tools to explore the data.")
         
         if 'builder_emg_windows' in st.session_state and 'builder_phonemes_list' in st.session_state:
-            try:
+                try:
                 emg_windows = st.session_state['builder_emg_windows']
                 phonemes = st.session_state['builder_phonemes_list']
                 
@@ -580,9 +588,9 @@ else:  # Phoneme Builder page
                     st.pyplot(fig, use_container_width=True)
                 else:
                     st.warning("⚠️ Could not generate EMG plots")
-            except Exception as e:
+                except Exception as e:
                 import traceback
-                st.warning("⚠️ EMG plotting failed - showing placeholder")
+                    st.warning("⚠️ EMG plotting failed - showing placeholder")
                 st.error(f"Error: {str(e)}")
                 st.code(traceback.format_exc())
         
