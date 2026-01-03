@@ -310,6 +310,7 @@ with col_right:
         
         if not selected_phonemes:
             st.warning("⚠️ Please select at least one phoneme first!")
+            st.rerun()
         else:
             with st.spinner("Processing EMG signals..."):
                 try:
@@ -318,6 +319,7 @@ with col_right:
                     
                     if emg_windows is None or len(emg_windows) == 0:
                         st.error("❌ Failed to build EMG sequence. Please check that phoneme_emg_library.npz exists.")
+                        st.session_state['builder_processing'] = False
                     else:
                         # Store in session state
                         st.session_state['builder_emg_windows'] = emg_windows
@@ -326,6 +328,8 @@ with col_right:
                         st.session_state['builder_processing'] = True
                         st.session_state['builder_error'] = None
                     
+                    st.rerun()
+                    
                 except Exception as e:
                     import traceback
                     error_msg = str(e)
@@ -333,6 +337,7 @@ with col_right:
                     st.code(traceback.format_exc())
                     st.session_state['builder_processing'] = False
                     st.session_state['builder_error'] = error_msg
+                    st.rerun()
 
 # Display results if processing is complete
 if st.session_state.get('builder_processing', False):
