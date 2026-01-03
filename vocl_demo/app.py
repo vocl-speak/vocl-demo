@@ -292,26 +292,29 @@ if page == "Exhibits":
     """)
     
     # Define exhibits with their images and explanations
-    # Images are in vocl_demo/visualization_plots/ folder (same directory as app.py)
+    # Images are in vocl_demo/visualization_plots/ folder
+    # Streamlit Cloud runs from repo root, so path is vocl_demo/visualization_plots/filename.png
     def get_image_path(filename):
         """Get image path that works both locally and on Streamlit Cloud."""
-        # Images are in the same directory as app.py (vocl_demo/)
         script_dir = os.path.dirname(os.path.abspath(__file__))
         
-        # Try multiple path resolutions
+        # Try multiple path resolutions (order matters!)
         paths_to_try = [
-            os.path.join(script_dir, 'visualization_plots', filename),  # Absolute from script
-            os.path.join('visualization_plots', filename),  # Relative to current dir
-            os.path.join('vocl_demo', 'visualization_plots', filename),  # From repo root
+            # 1. From script directory (local dev: vocl_demo/visualization_plots/)
+            os.path.join(script_dir, 'visualization_plots', filename),
+            # 2. From repo root (Streamlit Cloud: vocl_demo/visualization_plots/)
+            os.path.join('vocl_demo', 'visualization_plots', filename),
+            # 3. Relative to current working directory
+            os.path.join('visualization_plots', filename),
         ]
         
         for path in paths_to_try:
-            if os.path.exists(path):
-                return path
+            normalized = os.path.normpath(path)
+            if os.path.exists(normalized):
+                return normalized
         
-        # If none found, return relative path (Streamlit will try to resolve)
-        # Streamlit Cloud runs from repo root, so this should work
-        return os.path.join('visualization_plots', filename)
+        # Fallback: return path from repo root (Streamlit Cloud default)
+        return os.path.join('vocl_demo', 'visualization_plots', filename)
     
     exhibits = [
         {
