@@ -245,7 +245,6 @@ with col_left:
         render_phoneme_selector("consonants")
 
 with col_right:
-    st.markdown("### Current Sequence")
     display_current_sequence()
     
     # Control buttons
