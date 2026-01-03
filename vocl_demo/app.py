@@ -277,8 +277,8 @@ with col_logo:
 
 with col_title:
     # Use CSS to center text in this column (which spans from logo right to page right)
-st.markdown('<div class="main-header">VOCL Phoneme Builder</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Electromyographic Signal Analysis & Phoneme Reconstruction</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header">VOCL Phoneme Builder</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Electromyographic Signal Analysis & Phoneme Reconstruction</div>', unsafe_allow_html=True)
 
 # Product Description
 st.markdown("""
