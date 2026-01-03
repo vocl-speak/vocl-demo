@@ -142,11 +142,39 @@ st.markdown("""
         transform: translateY(-1px);
     }
     
-    /* Tabs */
+    /* Tabs - Enhanced styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 0.5rem;
+        background-color: transparent;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text-secondary);
+        background-color: transparent;
+        border: 2px solid transparent;
+        border-radius: 8px 8px 0 0;
+        transition: all 0.2s ease;
+    }
+    
     .stTabs [aria-selected="true"] {
-        background-color: var(--primary-black);
-        color: white;
-        border-radius: 6px 6px 0 0;
+        background-color: var(--primary-black) !important;
+        color: white !important;
+        border-color: var(--primary-black) !important;
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .stTabs [aria-selected="false"] {
+        background-color: #f5f7fa !important;
+        color: var(--text-secondary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    .stTabs [aria-selected="false"]:hover {
+        background-color: #e8eaf0 !important;
+        color: var(--primary-black) !important;
     }
     
     /* Cards and containers */
@@ -376,7 +404,7 @@ with page_tab1:
 with page_tab2:
     # Exhibits Page Content
     st.markdown("## Principal Component Analysis Exhibits")
-    st.caption("Visualizations demonstrating neural pattern consistency across vocal and silent conditions.")
+    st.caption("Neural pattern consistency across attempted speech and silent conditions.")
     
     st.markdown("---")
     
@@ -397,19 +425,15 @@ with page_tab2:
     
     with col_text1:
         st.markdown("""
-        **What PC1 Correlation Means (Simplified)**
+        **PC1 Correlation (r = 0.84)**
         
-        Principal Component 1 (PC1) shows a strong positive correlation (r = 0.84) between vocal/whispered ABCs and silent ABCs EEG data. This means that the main pattern of brain activity found in one condition tends to appear in the other as well.
+        Principal Component 1 shows strong correlation between attempted speech and silent ABCs EEG data, indicating shared neural patterns across conditions.
         
-        **Why PC1 Is Important**
+        **Key Findings:**
         
-        PC1 represents the dominant pattern in the EEG data. In other words, it captures the most prominent brain activity signal during the task.
-        
-        A correlation of r = 0.84 indicates that:
-        
-        - When PC1 activity increases in the vocal/whispered condition, it generally increases in the silent condition as well.
-        - A substantial portion of the dominant brain signal is shared across both conditions.
-        - The overall neural pattern is consistent, even when no speech is produced.
+        - PC1 captures the dominant brain activity signal during the task
+        - PC1 activity increases synchronously in both conditions
+        - Neural patterns remain consistent even without speech production
         """)
     
     st.markdown("---")
@@ -431,9 +455,7 @@ with page_tab2:
     
     with col_text2:
         st.markdown("""
-        **PC1 Timeseries Visualization**
+        **Temporal Dynamics**
         
-        This visualization shows the temporal dynamics of Principal Component 1 across both vocal/whispered and silent conditions. The timeseries demonstrates how the dominant neural pattern evolves over time during the task.
-        
-        The consistent patterns observed in this visualization support the correlation findings, showing that similar neural activation patterns occur across both conditions, even when speech production is absent.
+        The timeseries shows how PC1 evolves over time across attempted speech and silent conditions. Consistent patterns support the correlation findings, demonstrating similar neural activation even when speech production is absent.
         """)
