@@ -293,8 +293,7 @@ st.markdown("---")
 # Two-column layout: Left = Phoneme selector, Right = Current sequence + Build button
 col_left, col_right = st.columns([2.5, 1])
 
-    with col_left:
-st.markdown("### Phoneme Selection Grid")
+    st.markdown("### Phoneme Selection Grid")
 st.caption("Select phonemes from the grid below to build your word. Each phoneme represents a distinct EMG signal pattern.")
         
         # Tabs for vowels and consonants
@@ -306,8 +305,7 @@ st.caption("Select phonemes from the grid below to build your word. Each phoneme
         with tab2:
             render_phoneme_selector("consonants")
 
-    with col_right:
-st.markdown("### Current Sequence")
+    st.markdown("### Current Sequence")
         display_current_sequence()
         
         # Control buttons
