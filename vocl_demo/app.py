@@ -308,151 +308,137 @@ if page == "Exhibits":
             "title": "1. Scatter Plot: Mean Feature Vectors",
             "image": get_image_path("scatter_mean_features.png"),
             "explanation": """
-            **WHAT IT IS:** A scatter plot where each point represents one feature dimension (out of 160 features).
+            **What it is:** A scatter plot where each point represents one feature dimension (out of 160 features).
             - X-axis = Mean feature value for Silent speech (normalized)
             - Y-axis = Mean feature value for Vocalized+Whispered speech (normalized)
             
-            **WHAT IT SHOWS:**
-            - Each dot = one feature's average value in both conditions
-            - Red dashed line = Perfect correlation line (y=x)
-            - Green line = Actual trend line through the data points
+            **What it shows:**
+            - Each dot represents one feature's average value in both conditions
+            - Red dashed line shows the perfect correlation line (y=x)
+            - Green line shows the actual trend line through the data points
             
-            **HOW IT PROVES HIGH CORRELATION:**
-            ✓ Points cluster tightly along the diagonal (y=x line) → Features follow the same pattern in both conditions
-            ✓ Trend line is very close to the perfect correlation line → Strong relationship, not just coincidence
-            ✓ The closer points are to y=x, the higher the correlation
+            **What this suggests about correlation:**
+            The points appear to cluster along the diagonal (y=x line), which suggests features might follow similar patterns in both conditions. The trend line seems close to the perfect correlation line, indicating there may be a relationship between the conditions. Generally, the closer points are to y=x, the stronger the correlation appears to be.
             
-            **KEY INSIGHT:** If conditions were UNcorrelated, points would be scattered randomly. Instead, they form a clear diagonal pattern = STRONG CORRELATION.
+            **Takeaway:** If the conditions were uncorrelated, we might expect points to be scattered randomly. Instead, they seem to form a diagonal pattern, which could indicate some level of correlation between silent and vocalized+whispered speech.
             """
         },
         {
             "title": "2. Radar Chart: Feature Profile Comparison",
             "image": get_image_path("radar_chart_features.png"),
             "explanation": """
-            **WHAT IT IS:** A circular (radar/spider) chart comparing the top 12 most important features.
+            **What it is:** A circular (radar/spider) chart comparing the top 12 most important features.
             Each axis represents one feature dimension showing the "profile" or "signature" of each condition.
             
-            **WHAT IT SHOWS:**
-            - Red polygon = Silent speech feature profile
-            - Green polygon = Vocalized+Whispered feature profile
-            - Each axis = One feature dimension (F0, F1, F2, etc.)
-            - Distance from center = Feature value magnitude
+            **What it shows:**
+            - Red polygon represents the Silent speech feature profile
+            - Green polygon represents the Vocalized+Whispered feature profile
+            - Each axis represents one feature dimension (F0, F1, F2, etc.)
+            - Distance from center indicates feature value magnitude
             
-            **HOW IT PROVES HIGH CORRELATION:**
-            ✓ The two polygons have SIMILAR SHAPES → Both conditions activate features in similar patterns
-            ✓ Polygons overlap substantially → Feature values are similar across conditions
-            ✓ When red goes up, green also goes up → Features change together, indicating correlation
+            **What this suggests about correlation:**
+            The two polygons appear to have similar shapes, which might indicate that both conditions activate features in comparable patterns. The polygons seem to overlap substantially, suggesting feature values could be similar across conditions. When one polygon goes up on an axis, the other tends to follow, which could indicate features change together.
             
-            **KEY INSIGHT:** If conditions were different, polygons would have different shapes. Similar shapes = Similar activation patterns = HIGH CORRELATION.
+            **Takeaway:** If the conditions were quite different, we might expect the polygons to have noticeably different shapes. The similar shapes we observe here could suggest similar activation patterns, though this would need further validation.
             """
         },
         {
             "title": "3. Violin Plots: Feature Distribution Comparison",
             "image": get_image_path("violin_plots_features.png"),
             "explanation": """
-            **WHAT IT IS:** Four side-by-side comparisons showing the distribution of feature values.
+            **What it is:** Four side-by-side comparisons showing the distribution of feature values.
             Each plot shows one feature, with distributions for both conditions.
-            Violin shape = Distribution density (wider = more samples at that value)
+            The violin shape represents distribution density (wider areas indicate more samples at that value).
             
-            **WHAT IT SHOWS:**
-            - Left violin (red) = Silent speech distribution
-            - Right violin (green) = Vocalized+Whispered distribution
-            - Width = How many samples have that feature value
-            - White dot = Mean value
-            - Thick line = Median value
+            **What it shows:**
+            - Left violin (red) shows the Silent speech distribution
+            - Right violin (green) shows the Vocalized+Whispered distribution
+            - Width indicates how many samples have that feature value
+            - White dot marks the mean value
+            - Thick line marks the median value
             
-            **HOW IT PROVES HIGH CORRELATION:**
-            ✓ Overlapping violins = Similar distributions → Both conditions have similar feature value ranges
-            ✓ Similar shapes = Similar patterns → Features behave similarly across conditions
-            ✓ Means/medians are close = Similar central tendencies → Average activation is similar
+            **What this suggests about correlation:**
+            The violins appear to overlap, which could indicate similar distributions and that both conditions might have comparable feature value ranges. The shapes seem somewhat similar, suggesting features might behave similarly across conditions. The means and medians appear relatively close, which could indicate similar central tendencies.
             
-            **KEY INSIGHT:** If conditions were different, violins would be separated and different shapes. Overlapping violins with similar shapes = HIGH CORRELATION.
+            **Takeaway:** If the conditions were quite different, we might expect the violins to be more separated with different shapes. The overlapping violins with similar shapes we see here might suggest some level of correlation, though this interpretation should be considered alongside other evidence.
             """
         },
         {
             "title": "4. Bar Chart: Cosine Similarity with Context",
             "image": get_image_path("cosine_similarity_bar_chart.png"),
             "explanation": """
-            **WHAT IT IS:** A bar chart comparing your result (0.9834) to reference values.
-            Shows where your result falls on the similarity scale.
+            **What it is:** A bar chart comparing the result (0.9834) to reference values.
+            This helps contextualize where the result falls on the similarity scale.
             
-            **WHAT IT SHOWS:**
+            **What it shows:**
             - Five bars: Perfect Match (1.0), Your Result (0.9834), High (0.9), Moderate (0.7), Low (0.5)
             - Your result bar is highlighted in red
             - Each bar shows the value as both number and percentage
             
-            **HOW IT PROVES HIGH CORRELATION:**
-            ✓ Your result (0.9834) is VERY CLOSE to Perfect Match (1.0) → Almost identical feature patterns
-            ✓ Your result is HIGHER than "High Similarity" (0.9) → Exceeds the threshold for strong correlation
-            ✓ Only 1.66% away from perfect (100% - 98.34% = 1.66%) → Extremely high similarity
+            **What this suggests about correlation:**
+            The result (0.9834) appears relatively close to Perfect Match (1.0), which might suggest the feature patterns could be quite similar. The result seems higher than the "High Similarity" threshold (0.9), though what constitutes "strong" correlation can depend on the context. The result is about 1.66% away from perfect, which seems like a relatively small difference.
             
-            **KEY INSIGHT:** This chart CONTEXTUALIZES the number - showing that 0.98 is not "some correlation" but "VERY HIGH correlation" (almost perfect).
+            **Takeaway:** This chart helps put the number in context. A value of 0.98 appears to indicate fairly high similarity, though the interpretation depends on the specific application and what level of similarity is meaningful for the task at hand.
             """
         },
         {
             "title": "5. t-SNE with Density Contours",
             "image": get_image_path("tsne_with_contours.png"),
             "explanation": """
-            **WHAT IT IS:** A 2D visualization of the high-dimensional feature space (160 dimensions → 2D).
-            Each point = one EMG sample (256 silent + 256 vocalized+whispered)
-            Contour lines = Density of samples (like a topographic map)
+            **What it is:** A 2D visualization of the high-dimensional feature space (160 dimensions reduced to 2D).
+            Each point represents one EMG sample (256 silent + 256 vocalized+whispered).
+            Contour lines show density of samples, similar to a topographic map.
             
-            **WHAT IT SHOWS:**
-            - Red points = Silent speech samples
-            - Green points = Vocalized+Whispered samples
-            - Contour lines = Regions where many samples cluster
-            - Overlapping contours = Shared clustering regions
+            **What it shows:**
+            - Red points represent Silent speech samples
+            - Green points represent Vocalized+Whispered samples
+            - Contour lines indicate regions where many samples cluster
+            - Overlapping contours suggest shared clustering regions
             
-            **HOW IT PROVES HIGH CORRELATION:**
-            ✓ Red and green points are MIXED TOGETHER, not separated → Samples from both conditions occupy similar feature space
-            ✓ Contour lines OVERLAP substantially → Both conditions cluster in the same regions
-            ✓ No clear separation between conditions → They share feature space, indicating correlation
+            **What this suggests about correlation:**
+            The red and green points appear mixed together rather than clearly separated, which might indicate that samples from both conditions could occupy similar regions in feature space. The contour lines seem to overlap substantially, suggesting both conditions might cluster in comparable regions. There doesn't appear to be a clear separation between conditions, which could indicate they share some feature space.
             
-            **KEY INSIGHT:** If conditions were UNcorrelated, you'd see two separate clusters. Instead, you see ONE overlapping cluster = HIGH CORRELATION.
+            **Takeaway:** If the conditions were uncorrelated, we might expect to see two more distinct clusters. The overlapping pattern we observe here could suggest some level of correlation, though t-SNE is a nonlinear reduction technique and should be interpreted with caution.
             """
         },
         {
             "title": "6. Feature-by-Feature Correlation Scatter",
             "image": get_image_path("feature_correlations_scatter.png"),
             "explanation": """
-            **WHAT IT IS:** A scatter plot showing the correlation coefficient for each individual feature.
-            Each point = One feature's correlation between Silent and V+W conditions.
+            **What it is:** A scatter plot showing the correlation coefficient for each individual feature.
+            Each point represents one feature's correlation between Silent and V+W conditions.
             Features are sorted by correlation strength (strongest first).
             
-            **WHAT IT SHOWS:**
+            **What it shows:**
             - X-axis = Feature index (sorted by correlation strength)
             - Y-axis = Pearson correlation coefficient (-1 to +1)
-            - Green points = Strong correlation (>0.7)
-            - Orange points = Moderate correlation (0.4-0.7)
-            - Red points = Weak correlation (<0.4)
+            - Green points indicate strong correlation (>0.7)
+            - Orange points indicate moderate correlation (0.4-0.7)
+            - Red points indicate weak correlation (<0.4)
             
-            **HOW IT PROVES HIGH CORRELATION:**
-            ✓ Many features have HIGH correlation (>0.7, shown in green) → Many features match well between conditions
-            ✓ Overall pattern shows more green/orange than red → Most features correlate positively
-            ✓ The average of these correlations supports the 98.34% cosine similarity → Granular analysis confirms overall similarity
+            **What this suggests about correlation:**
+            Many features appear to have relatively high correlation (>0.7, shown in green), which might suggest that many features could match reasonably well between conditions. The overall pattern seems to show more green and orange points than red, which could indicate that most features correlate positively to some degree. The distribution of these correlations seems consistent with the overall 98.34% cosine similarity measure.
             
-            **KEY INSIGHT:** This shows the GRANULAR detail - not just overall similarity, but WHICH features contribute most. Many strong correlations = HIGH OVERALL CORRELATION.
+            **Takeaway:** This provides a more granular view - showing not just overall similarity, but which individual features might contribute most to that similarity. The presence of many strong correlations could support the idea of overall correlation, though individual feature correlations can vary.
             """
         },
         {
             "title": "7. Cosine Similarity Visualization (Vector Angle)",
             "image": get_image_path("cosine_similarity_visualization.png"),
             "explanation": """
-            **WHAT IT IS:** A geometric visualization showing the angle between the two feature vectors.
-            Shows cosine similarity as the angle between vectors in 2D space.
+            **What it is:** A geometric visualization showing the angle between the two feature vectors.
+            This illustrates cosine similarity as the angle between vectors in 2D space.
             
-            **WHAT IT SHOWS:**
-            - Red arrow = Silent speech mean feature vector (direction)
-            - Green arrow = Vocalized+Whispered mean feature vector (direction)
-            - Blue arc = Angle between vectors (10.5°)
-            - Unit circle = Reference circle
+            **What it shows:**
+            - Red arrow represents the Silent speech mean feature vector (direction)
+            - Green arrow represents the Vocalized+Whispered mean feature vector (direction)
+            - Blue arc shows the angle between vectors (10.5°)
+            - Unit circle provides a reference scale
             
-            **HOW IT PROVES HIGH CORRELATION:**
-            ✓ Small angle (10.5°) = Vectors point in almost the SAME direction → Feature patterns are almost identical
-            ✓ Angle is very close to 0° (perfect match) → Very high similarity
-            ✓ Cosine similarity = cos(angle) = cos(10.5°) = 0.9834 → Mathematical proof of high correlation
+            **What this suggests about correlation:**
+            The angle appears relatively small (10.5°), which might suggest the vectors point in similar directions. The angle seems close to 0° (which would be a perfect match), indicating potentially high similarity. The cosine similarity calculation gives cos(10.5°) = 0.9834, which is the mathematical relationship between the angle and the similarity measure.
             
-            **KEY INSIGHT:** This is the GEOMETRIC PROOF - showing that 0.98 cosine similarity means the vectors are only 10.5° apart (almost parallel). This is VERY HIGH similarity.
+            **Takeaway:** This provides a geometric interpretation of the cosine similarity measure. A value of 0.98 corresponds to vectors that are about 10.5° apart, which seems like a relatively small angle. Whether this represents "very high" similarity depends on the specific application and what level of similarity is meaningful for the task.
             """
         }
     ]
@@ -467,7 +453,7 @@ if page == "Exhibits":
         with col_img:
             try:
                 st.image(exhibit['image'], use_container_width=True)
-            except Exception as e:
+                except Exception as e:
                 st.error(f"Could not load image: {exhibit['image']}")
                 st.caption(f"Error: {str(e)}")
         
@@ -481,21 +467,21 @@ if page == "Exhibits":
     st.markdown("---")
     st.markdown("### Summary: How All Visualizations Work Together")
     st.markdown("""
-    Each visualization proves correlation in a different way:
+    Each visualization approaches the question of correlation from a different angle:
     
-    1. **SCATTER PLOT** → Shows the RELATIONSHIP (points cluster on diagonal)
-    2. **RADAR CHART** → Shows the PATTERN (similar shapes)
-    3. **VIOLIN PLOTS** → Shows the DISTRIBUTION (overlapping distributions)
-    4. **BAR CHART** → Shows the CONTEXT (98% is very high)
-    5. **t-SNE CONTOURS** → Shows the CLUSTERING (overlapping clusters)
-    6. **FEATURE SCATTER** → Shows the DETAILS (many features correlate)
-    7. **ANGLE VISUALIZATION** → Shows the MATH (10.5° angle = high similarity)
+    1. **Scatter Plot** - Examines the relationship between feature values (points clustering on diagonal)
+    2. **Radar Chart** - Compares feature activation patterns (similar shapes)
+    3. **Violin Plots** - Looks at distribution overlap (overlapping distributions)
+    4. **Bar Chart** - Provides context for the similarity measure (98% relative to other benchmarks)
+    5. **t-SNE Contours** - Explores clustering patterns (overlapping clusters)
+    6. **Feature Scatter** - Breaks down individual feature contributions (many features show correlation)
+    7. **Angle Visualization** - Shows the geometric interpretation (10.5° angle corresponds to the similarity measure)
     
-    **TOGETHER, these prove:**
-    - Silent and vocalized+whispered speech share **98.34% feature space similarity**
-    - This similarity is visible in multiple ways (scatter, radar, distributions)
-    - The finding is robust (consistent across visualization methods)
-    - Transfer learning is scientifically justified
+    **Taken together, these visualizations suggest:**
+    - Silent and vocalized+whispered speech appear to share approximately 98.34% feature space similarity
+    - This similarity seems to be visible across multiple visualization approaches
+    - The patterns appear consistent across different analytical methods
+    - These findings could potentially support the feasibility of transfer learning approaches, though further validation would be needed
     """)
 
 else:  # Phoneme Builder page
