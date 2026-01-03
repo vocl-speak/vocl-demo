@@ -196,8 +196,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Navigation removed - only Phoneme Builder page
-
 # Header with Logo - text centered from logo right edge to page right edge
 col_logo, col_title = st.columns([1.2, 8.8])
 with col_logo:
@@ -215,7 +213,7 @@ with col_logo:
 
 with col_title:
     # Use CSS to center text in this column (which spans from logo right to page right)
-    st.markdown('<div class="main-header">VOCL Phoneme Builder</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header">VOCL</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Electromyographic Signal Analysis & Phoneme Reconstruction</div>', unsafe_allow_html=True)
 
 # Product Description
@@ -225,148 +223,217 @@ st.markdown("""
 This interactive demonstration simulates the VOCL experience. Build phoneme sequences through subvocalization patterns, then visualize real-world EMG signals captured from actual users. Each phoneme represents distinct muscle activation patterns that VOCL learns to recognize and translate into speech.
 """)
 
-# Main content
+# Navigation tabs
 st.markdown("---")
+page_tab1, page_tab2 = st.tabs(["Phoneme Builder", "Exhibits"])
 
-# Two-column layout: Left = Phoneme selector, Right = Current sequence + Build button
-col_left, col_right = st.columns([2.5, 1])
-
-with col_left:
-    st.markdown("### Phoneme Selection Grid")
-    st.caption("Select phonemes from the grid below to build your word. Each phoneme represents a distinct EMG signal pattern.")
+with page_tab1:
+    # Phoneme Builder Page Content
     
-    # Tabs for vowels and consonants
-    tab1, tab2 = st.tabs(["Vowels", "Consonants"])
+    # Two-column layout: Left = Phoneme selector, Right = Current sequence + Build button
+    col_left, col_right = st.columns([2.5, 1])
     
-    with tab1:
-        render_phoneme_selector("vowels")
-    
-    with tab2:
-        render_phoneme_selector("consonants")
-
-with col_right:
-    display_current_sequence()
-    
-    # Control buttons
-    col_btn1, col_btn2 = st.columns(2)
-    with col_btn1:
-        remove_last_phoneme()
-    with col_btn2:
-        clear_sequence()
-    
-    st.markdown("---")
-    
-    # Build Word button
-    if st.button("🔬 Analyze EMG Signals", type="primary", use_container_width=True):
-        selected_phonemes = st.session_state.get('selected_phonemes', [])
+    with col_left:
+        st.markdown("### Phoneme Selection Grid")
+        st.caption("Select phonemes from the grid below to build your word. Each phoneme represents a distinct EMG signal pattern.")
         
-        if not selected_phonemes:
-            st.warning("⚠️ Please select at least one phoneme first!")
-            st.rerun()
-        else:
-            with st.spinner("Processing EMG signals..."):
-                try:
-                    # Build EMG sequence from pre-generated library
-                    emg_windows, phoneme_seq, _ = build_emg_sequence_from_library(selected_phonemes)
-                    
-                    if emg_windows is None or len(emg_windows) == 0:
-                        st.error("❌ Failed to build EMG sequence. Please check that phoneme_emg_library.npz exists.")
-                        st.session_state['builder_processing'] = False
-                    else:
-                        # Store in session state
-                        st.session_state['builder_emg_windows'] = emg_windows
-                        st.session_state['builder_phoneme_sequence'] = phoneme_seq
-                        st.session_state['builder_phonemes_list'] = phoneme_seq.split() if isinstance(phoneme_seq, str) else phoneme_seq
-                        st.session_state['builder_processing'] = True
-                        st.session_state['builder_error'] = None
-                    
-                    st.rerun()
-                    
-                except Exception as e:
-                    import traceback
-                    error_msg = str(e)
-                    st.error(f"❌ Error building word: {error_msg}")
-                    st.code(traceback.format_exc())
-                    st.session_state['builder_processing'] = False
-                    st.session_state['builder_error'] = error_msg
-                    st.rerun()
-
-# Display results if processing is complete
-if st.session_state.get('builder_processing', False):
-    st.markdown("---")
-    st.markdown("## Analysis Results")
+        # Tabs for vowels and consonants
+        tab1, tab2 = st.tabs(["Vowels", "Consonants"])
+        
+        with tab1:
+            render_phoneme_selector("vowels")
+        
+        with tab2:
+            render_phoneme_selector("consonants")
     
-    # EMG Signals Section (Full Width)
-    st.markdown("### Electromyographic Signal Visualization")
-    st.caption("Interactive EMG signals for each phoneme. Use zoom, pan, and hover tools to explore the data.")
-    
-    if 'builder_emg_windows' in st.session_state and 'builder_phonemes_list' in st.session_state:
-        try:
-            emg_windows = st.session_state['builder_emg_windows']
-            phonemes = st.session_state['builder_phonemes_list']
+    with col_right:
+        display_current_sequence()
+        
+        # Control buttons
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            remove_last_phoneme()
+        with col_btn2:
+            clear_sequence()
+        
+        st.markdown("---")
+        
+        # Build Word button
+        if st.button("🔬 Analyze EMG Signals", type="primary", use_container_width=True):
+            selected_phonemes = st.session_state.get('selected_phonemes', [])
             
-            # Use matplotlib visualization
-            fig = plot_phoneme_emg_grid(emg_windows, phonemes)
-            if fig:
-                st.pyplot(fig, use_container_width=True)
+            if not selected_phonemes:
+                st.warning("⚠️ Please select at least one phoneme first!")
+                st.rerun()
             else:
-                st.warning("Could not generate EMG plots")
-        except Exception as e:
-            import traceback
-            st.warning("EMG plotting failed - showing placeholder")
-            st.error(f"Error: {str(e)}")
-            st.code(traceback.format_exc())
+                with st.spinner("Processing EMG signals..."):
+                    try:
+                        # Build EMG sequence from pre-generated library
+                        emg_windows, phoneme_seq, _ = build_emg_sequence_from_library(selected_phonemes)
+                        
+                        if emg_windows is None or len(emg_windows) == 0:
+                            st.error("❌ Failed to build EMG sequence. Please check that phoneme_emg_library.npz exists.")
+                            st.session_state['builder_processing'] = False
+                        else:
+                            # Store in session state
+                            st.session_state['builder_emg_windows'] = emg_windows
+                            st.session_state['builder_phoneme_sequence'] = phoneme_seq
+                            st.session_state['builder_phonemes_list'] = phoneme_seq.split() if isinstance(phoneme_seq, str) else phoneme_seq
+                            st.session_state['builder_processing'] = True
+                            st.session_state['builder_error'] = None
+                        
+                        st.rerun()
+                        
+                    except Exception as e:
+                        import traceback
+                        error_msg = str(e)
+                        st.error(f"❌ Error building word: {error_msg}")
+                        st.code(traceback.format_exc())
+                        st.session_state['builder_processing'] = False
+                        st.session_state['builder_error'] = error_msg
+                        st.rerun()
     
-    # Two-column layout for phonemes and text
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### Phoneme Sequence")
-        if 'builder_phoneme_sequence' in st.session_state:
-            display_phonemes(st.session_state['builder_phoneme_sequence'])
-    
-    with col2:
-        st.markdown("### Reconstructed Text")
-        if 'builder_phoneme_sequence' in st.session_state:
-            phoneme_seq = st.session_state['builder_phoneme_sequence']
-            
-            # Try LLM correction with Groq API
+    # Display results if processing is complete
+    if st.session_state.get('builder_processing', False):
+        st.markdown("---")
+        st.markdown("## Analysis Results")
+        
+        # EMG Signals Section (Full Width)
+        st.markdown("### Electromyographic Signal Visualization")
+        st.caption("Interactive EMG signals for each phoneme. Use zoom, pan, and hover tools to explore the data.")
+        
+        if 'builder_emg_windows' in st.session_state and 'builder_phonemes_list' in st.session_state:
             try:
-                from utils.cloud_llm import correct_phonemes_with_groq, is_groq_available
+                emg_windows = st.session_state['builder_emg_windows']
+                phonemes = st.session_state['builder_phonemes_list']
                 
-                if is_groq_available():
-                    with st.spinner("Correcting phonemes with LLM..."):
-                        if isinstance(phoneme_seq, str):
-                            phoneme_list = phoneme_seq.split()
-                        else:
-                            phoneme_list = phoneme_seq
-                        
-                        corrected_text = correct_phonemes_with_groq(phoneme_list, timeout=15)
-                        
-                        if corrected_text and len(corrected_text.strip()) > 0:
-                            display_final_text(corrected_text, success=True)
-                        else:
-                            st.info("ℹ️ LLM correction unavailable - showing raw phoneme sequence")
-                            display_final_text(phoneme_seq, success=False)
+                # Use matplotlib visualization
+                fig = plot_phoneme_emg_grid(emg_windows, phonemes)
+                if fig:
+                    st.pyplot(fig, use_container_width=True)
                 else:
-                    st.info("ℹ️ LLM correction unavailable (API key not set)")
-                    st.caption("💡 Tip: Add GROQ_API_KEY to Streamlit secrets for LLM correction")
-                    display_final_text(phoneme_seq, success=False)
-                        
-            except ImportError:
-                st.info("ℹ️ LLM not available - showing raw phonemes")
-                display_final_text(phoneme_seq, success=False)
+                    st.warning("Could not generate EMG plots")
             except Exception as e:
-                st.warning(f"⚠️ LLM error: {str(e)[:100]}")
-                display_final_text(phoneme_seq, success=False)
+                import traceback
+                st.warning("EMG plotting failed - showing placeholder")
+                st.error(f"Error: {str(e)}")
+                st.code(traceback.format_exc())
+        
+        # Two-column layout for phonemes and text
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("### Phoneme Sequence")
+            if 'builder_phoneme_sequence' in st.session_state:
+                display_phonemes(st.session_state['builder_phoneme_sequence'])
+        
+        with col2:
+            st.markdown("### Reconstructed Text")
+            if 'builder_phoneme_sequence' in st.session_state:
+                phoneme_seq = st.session_state['builder_phoneme_sequence']
+                
+                # Try LLM correction with Groq API
+                try:
+                    from utils.cloud_llm import correct_phonemes_with_groq, is_groq_available
+                    
+                    if is_groq_available():
+                        with st.spinner("Correcting phonemes with LLM..."):
+                            if isinstance(phoneme_seq, str):
+                                phoneme_list = phoneme_seq.split()
+                            else:
+                                phoneme_list = phoneme_seq
+                            
+                            corrected_text = correct_phonemes_with_groq(phoneme_list, timeout=15)
+                            
+                            if corrected_text and len(corrected_text.strip()) > 0:
+                                display_final_text(corrected_text, success=True)
+                            else:
+                                st.info("ℹ️ LLM correction unavailable - showing raw phoneme sequence")
+                                display_final_text(phoneme_seq, success=False)
+                    else:
+                        st.info("ℹ️ LLM correction unavailable (API key not set)")
+                        st.caption("💡 Tip: Add GROQ_API_KEY to Streamlit secrets for LLM correction")
+                        display_final_text(phoneme_seq, success=False)
+                            
+                except ImportError:
+                    st.info("ℹ️ LLM not available - showing raw phonemes")
+                    display_final_text(phoneme_seq, success=False)
+                except Exception as e:
+                    st.warning(f"⚠️ LLM error: {str(e)[:100]}")
+                    display_final_text(phoneme_seq, success=False)
+        
+        # Reset button
+        st.markdown("---")
+        if st.button("🔄 New Analysis", use_container_width=True):
+            st.session_state['builder_processing'] = False
+            st.rerun()
     
-    # Reset button
-    st.markdown("---")
-    if st.button("🔄 New Analysis", use_container_width=True):
-        st.session_state['builder_processing'] = False
-        st.rerun()
+    else:
+        # Placeholder when no processing
+        st.markdown("---")
+        st.info("👈 Select phonemes from the grid above and click 'Analyze EMG Signals' to begin analysis.")
 
-else:
-    # Placeholder when no processing
+with page_tab2:
+    # Exhibits Page Content
+    st.markdown("## Principal Component Analysis Exhibits")
+    st.caption("Visualizations demonstrating neural pattern consistency across vocal and silent conditions.")
+    
     st.markdown("---")
-    st.info("👈 Select phonemes from the grid above and click 'Analyze EMG Signals' to begin analysis.")
+    
+    # PC1 Correlation Visualization
+    st.markdown("### PC1 Correlation Analysis")
+    
+    col_img1, col_text1 = st.columns([1.2, 1])
+    
+    with col_img1:
+        try:
+            img_path = os.path.join(os.path.dirname(__file__), 'pc1_correlation.png')
+            if os.path.exists(img_path):
+                st.image(img_path, use_container_width=True)
+            else:
+                st.error("Image not found: pc1_correlation.png")
+        except Exception as e:
+            st.error(f"Error loading image: {str(e)}")
+    
+    with col_text1:
+        st.markdown("""
+        **What PC1 Correlation Means (Simplified)**
+        
+        Principal Component 1 (PC1) shows a strong positive correlation (r = 0.84) between vocal/whispered ABCs and silent ABCs EEG data. This means that the main pattern of brain activity found in one condition tends to appear in the other as well.
+        
+        **Why PC1 Is Important**
+        
+        PC1 represents the dominant pattern in the EEG data. In other words, it captures the most prominent brain activity signal during the task.
+        
+        A correlation of r = 0.84 indicates that:
+        
+        - When PC1 activity increases in the vocal/whispered condition, it generally increases in the silent condition as well.
+        - A substantial portion of the dominant brain signal is shared across both conditions.
+        - The overall neural pattern is consistent, even when no speech is produced.
+        """)
+    
+    st.markdown("---")
+    
+    # PC1 Timeseries Visualization
+    st.markdown("### PC1 Timeseries Analysis")
+    
+    col_img2, col_text2 = st.columns([1.2, 1])
+    
+    with col_img2:
+        try:
+            img_path = os.path.join(os.path.dirname(__file__), 'pc1_timeseries.png')
+            if os.path.exists(img_path):
+                st.image(img_path, use_container_width=True)
+            else:
+                st.error("Image not found: pc1_timeseries.png")
+        except Exception as e:
+            st.error(f"Error loading image: {str(e)}")
+    
+    with col_text2:
+        st.markdown("""
+        **PC1 Timeseries Visualization**
+        
+        This visualization shows the temporal dynamics of Principal Component 1 across both vocal/whispered and silent conditions. The timeseries demonstrates how the dominant neural pattern evolves over time during the task.
+        
+        The consistent patterns observed in this visualization support the correlation findings, showing that similar neural activation patterns occur across both conditions, even when speech production is absent.
+        """)
