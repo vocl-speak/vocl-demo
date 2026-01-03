@@ -267,7 +267,7 @@ with col_logo:
         logo_path = os.path.join(os.path.dirname(__file__), 'logo.png')
         if os.path.exists(logo_path):
             st.image(logo_path, width=120)
-                            else:
+        else:
             st.image('vocl_demo/logo.png', width=120)
     except:
         try:
@@ -288,7 +288,7 @@ This interactive demonstration simulates the VOCL experience. Build phoneme sequ
 """)
 
 # Main content
-    st.markdown("---")
+st.markdown("---")
     
     # Two-column layout: Left = Phoneme selector, Right = Current sequence + Build button
 col_left, col_right = st.columns([2.5, 1])
@@ -317,7 +317,7 @@ col_left, col_right = st.columns([2.5, 1])
         with col_btn2:
             clear_sequence()
         
-        st.markdown("---")
+    st.markdown("---")
         
         # Build Word button
     if st.button("🔬 Analyze EMG Signals", type="primary", use_container_width=True):
@@ -356,7 +356,7 @@ col_left, col_right = st.columns([2.5, 1])
     
     # Display results if processing is complete
     if st.session_state.get('builder_processing', False):
-        st.markdown("---")
+    st.markdown("---")
     st.markdown("## Analysis Results")
     
     # EMG Signals Section (Full Width)
@@ -401,14 +401,14 @@ col_left, col_right = st.columns([2.5, 1])
                         with st.spinner("Correcting phonemes with LLM..."):
                             if isinstance(phoneme_seq, str):
                                 phoneme_list = phoneme_seq.split()
-                            else:
+        else:
                                 phoneme_list = phoneme_seq
                             
                             corrected_text = correct_phonemes_with_groq(phoneme_list, timeout=15)
                             
                             if corrected_text and len(corrected_text.strip()) > 0:
                                 display_final_text(corrected_text, success=True)
-                            else:
+        else:
                                 st.info("ℹ️ LLM correction unavailable - showing raw phoneme sequence")
                                 display_final_text(phoneme_seq, success=False)
                     else:
@@ -424,12 +424,12 @@ col_left, col_right = st.columns([2.5, 1])
                     display_final_text(phoneme_seq, success=False)
         
         # Reset button
-    st.markdown("---")
+st.markdown("---")
     if st.button("🔄 New Analysis", use_container_width=True):
             st.session_state['builder_processing'] = False
             st.rerun()
     
     else:
         # Placeholder when no processing
-        st.markdown("---")
+    st.markdown("---")
     st.info("👈 Select phonemes from the grid above and click 'Analyze EMG Signals' to begin analysis.")
