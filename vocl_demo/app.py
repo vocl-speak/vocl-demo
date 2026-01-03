@@ -292,29 +292,16 @@ if page == "Exhibits":
     """)
     
     # Define exhibits with their images and explanations
-    # Images are in vocl_demo/visualization_plots/ folder
-    # Streamlit Cloud runs from repo root, so path is vocl_demo/visualization_plots/filename.png
+    # Images are in vocl_demo/exhibits_images/ folder (renamed for clarity)
     def get_image_path(filename):
         """Get image path that works both locally and on Streamlit Cloud."""
-        script_dir = os.path.dirname(os.path.abspath(__file__))
+        # Simple approach: use relative path from app.py location
+        # Streamlit Cloud runs from repo root, so path is vocl_demo/exhibits_images/filename.png
+        script_dir = os.path.dirname(__file__)
+        image_path = os.path.join(script_dir, 'exhibits_images', filename)
         
-        # Try multiple path resolutions (order matters!)
-        paths_to_try = [
-            # 1. From script directory (local dev: vocl_demo/visualization_plots/)
-            os.path.join(script_dir, 'visualization_plots', filename),
-            # 2. From repo root (Streamlit Cloud: vocl_demo/visualization_plots/)
-            os.path.join('vocl_demo', 'visualization_plots', filename),
-            # 3. Relative to current working directory
-            os.path.join('visualization_plots', filename),
-        ]
-        
-        for path in paths_to_try:
-            normalized = os.path.normpath(path)
-            if os.path.exists(normalized):
-                return normalized
-        
-        # Fallback: return path from repo root (Streamlit Cloud default)
-        return os.path.join('vocl_demo', 'visualization_plots', filename)
+        # Return the path - Streamlit will resolve it correctly
+        return image_path
     
     exhibits = [
         {
