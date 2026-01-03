@@ -18,7 +18,7 @@ os.environ['TF_NUM_INTRAOP_THREADS'] = '1'
 # Add current directory to path (for Streamlit Cloud compatibility)
 script_dir = os.path.dirname(os.path.abspath(__file__))
 if script_dir not in sys.path:
-sys.path.insert(0, script_dir)
+    sys.path.insert(0, script_dir)
 
 from components.emg_visualizer import plot_phoneme_emg_grid
 from components.phoneme_display import display_phonemes
