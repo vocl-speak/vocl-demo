@@ -283,8 +283,8 @@ with col_left:
         # Tabs for vowels and consonants
         tab1, tab2 = st.tabs(["Vowels", "Consonants"])
         
-        with tab1:
-            render_phoneme_selector("vowels")
+    with tab1:
+        render_phoneme_selector("vowels")
         
     with tab2:
         render_phoneme_selector("consonants")
