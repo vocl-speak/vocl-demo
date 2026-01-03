@@ -554,7 +554,7 @@ else:  # Phoneme Builder page
         st.caption("Interactive EMG signals for each phoneme. Use zoom, pan, and hover tools to explore the data.")
         
         if 'builder_emg_windows' in st.session_state and 'builder_phonemes_list' in st.session_state:
-                try:
+            try:
                 emg_windows = st.session_state['builder_emg_windows']
                 phonemes = st.session_state['builder_phonemes_list']
                 
@@ -563,10 +563,10 @@ else:  # Phoneme Builder page
                 if fig:
                     st.pyplot(fig, use_container_width=True)
                 else:
-                    st.warning("⚠️ Could not generate EMG plots")
+                    st.warning("Could not generate EMG plots")
                 except Exception as e:
                 import traceback
-                    st.warning("⚠️ EMG plotting failed - showing placeholder")
+                st.warning("EMG plotting failed - showing placeholder")
                 st.error(f"Error: {str(e)}")
                 st.code(traceback.format_exc())
         
