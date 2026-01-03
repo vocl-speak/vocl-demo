@@ -65,11 +65,11 @@ except:
 
 # Initialize session state variables if they don't exist
 if 'selected_phonemes' not in st.session_state:
-st.session_state['selected_phonemes'] = []
+    st.session_state['selected_phonemes'] = []
 if 'builder_processing' not in st.session_state:
-st.session_state['builder_processing'] = False
+    st.session_state['builder_processing'] = False
 if 'builder_error' not in st.session_state:
-st.session_state['builder_error'] = None
+    st.session_state['builder_error'] = None
 
 # Scientific UI CSS
 st.markdown("""
