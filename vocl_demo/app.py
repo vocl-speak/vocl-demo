@@ -453,7 +453,7 @@ if page == "Exhibits":
         with col_img:
             try:
                 st.image(exhibit['image'], use_container_width=True)
-                except Exception as e:
+            except Exception as e:
                 st.error(f"Could not load image: {exhibit['image']}")
                 st.caption(f"Error: {str(e)}")
         
@@ -564,7 +564,7 @@ else:  # Phoneme Builder page
                     st.pyplot(fig, use_container_width=True)
                 else:
                     st.warning("Could not generate EMG plots")
-                except Exception as e:
+            except Exception as e:
                 import traceback
                 st.warning("EMG plotting failed - showing placeholder")
                 st.error(f"Error: {str(e)}")
