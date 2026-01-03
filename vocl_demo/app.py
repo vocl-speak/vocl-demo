@@ -277,15 +277,15 @@ st.markdown("---")
 col_left, col_right = st.columns([2.5, 1])
 
 with col_left:
-        st.markdown("### Phoneme Selection Grid")
-        st.caption("Select phonemes from the grid below to build your word. Each phoneme represents a distinct EMG signal pattern.")
-        
-        # Tabs for vowels and consonants
-        tab1, tab2 = st.tabs(["Vowels", "Consonants"])
-        
+    st.markdown("### Phoneme Selection Grid")
+    st.caption("Select phonemes from the grid below to build your word. Each phoneme represents a distinct EMG signal pattern.")
+    
+    # Tabs for vowels and consonants
+    tab1, tab2 = st.tabs(["Vowels", "Consonants"])
+    
     with tab1:
         render_phoneme_selector("vowels")
-        
+    
     with tab2:
         render_phoneme_selector("consonants")
 
