@@ -41,8 +41,8 @@ initial_sidebar_state="expanded"
 
 # Add favicon using JavaScript (runs after page load)
 try:
-logo_path = os.path.join(os.path.dirname(__file__), 'logo.png')
-if os.path.exists(logo_path):
+    logo_path = os.path.join(os.path.dirname(__file__), 'logo.png')
+    if os.path.exists(logo_path):
         with open(logo_path, 'rb') as f:
             logo_data = base64.b64encode(f.read()).decode()
         favicon_script = f"""
@@ -355,15 +355,15 @@ if st.button("🔬 Analyze EMG Signals", type="primary", use_container_width=Tru
                     st.rerun()
 
     # Display results if processing is complete
-if st.session_state.get('builder_processing', False):
-st.markdown("---")
-st.markdown("## Analysis Results")
+    if st.session_state.get('builder_processing', False):
+    st.markdown("---")
+    st.markdown("## Analysis Results")
 
     # EMG Signals Section (Full Width)
-st.markdown("### Electromyographic Signal Visualization")
-st.caption("Interactive EMG signals for each phoneme. Use zoom, pan, and hover tools to explore the data.")
+    st.markdown("### Electromyographic Signal Visualization")
+    st.caption("Interactive EMG signals for each phoneme. Use zoom, pan, and hover tools to explore the data.")
 
-if 'builder_emg_windows' in st.session_state and 'builder_phonemes_list' in st.session_state:
+    if 'builder_emg_windows' in st.session_state and 'builder_phonemes_list' in st.session_state:
         try:
             emg_windows = st.session_state['builder_emg_windows']
             phonemes = st.session_state['builder_phonemes_list']
@@ -380,8 +380,8 @@ if 'builder_emg_windows' in st.session_state and 'builder_phonemes_list' in st.s
             st.error(f"Error: {str(e)}")
             st.code(traceback.format_exc())
 
-# Two-column layout: Left = Phoneme selector, Right = Current sequence + Build button
-col1, col2 = st.columns(2)
+    # Two-column layout: Left = Phoneme selector, Right = Current sequence + Build button
+    col1, col2 = st.columns(2)
         
         with col1:
         st.markdown("### Phoneme Sequence")
@@ -424,12 +424,12 @@ col1, col2 = st.columns(2)
                     display_final_text(phoneme_seq, success=False)
         
         # Reset button
-st.markdown("---")
-if st.button("🔄 New Analysis", use_container_width=True):
+    st.markdown("---")
+    if st.button("🔄 New Analysis", use_container_width=True):
             st.session_state['builder_processing'] = False
             st.rerun()
 
-else:
+    else:
         # Placeholder when no processing
-st.markdown("---")
-st.info("👈 Select phonemes from the grid above and click 'Analyze EMG Signals' to begin analysis.")
+    st.markdown("---")
+    st.info("👈 Select phonemes from the grid above and click 'Analyze EMG Signals' to begin analysis.")
