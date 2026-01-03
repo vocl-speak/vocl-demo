@@ -220,7 +220,7 @@ with col_title:
 
 # Product Description
 st.markdown("""
-**VOCL** is a non-invasive, wearable headset that measures electromyographic (EMG) signals from facial muscles during subvocalization (silent speech). By classifying phonemes and reconstructing natural language, VOCL enables silent communication for individuals with speech impairments.
+**VOCL** is a non-invasive, wearable headset that measures electromyographic (EMG) signals from facial muscles. By classifying phonemes and reconstructing natural language, VOCL enables silent communication for individuals with speech impairments.
 
 This interactive demonstration simulates the VOCL experience. Build phoneme sequences through subvocalization patterns, then visualize real-world EMG signals captured from actual users. Each phoneme represents distinct muscle activation patterns that VOCL learns to recognize and translate into speech.
 """)
