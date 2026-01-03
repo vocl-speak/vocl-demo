@@ -61,7 +61,7 @@ try:
         """
         st.markdown(favicon_script, unsafe_allow_html=True)
 except:
-pass
+    pass
 
 # Initialize session state variables if they don't exist
 if 'selected_phonemes' not in st.session_state:
